@@ -39,8 +39,9 @@ export default defineComponent({
       items,
     };
   },
+  
   methods: {
-    exportToPDF(): void {
+    exportToPDF(nomeCliente: string): void {
       const doc = new jsPDF();
       doc.text("Relatório de Usuários", 14, 10);
 
@@ -56,26 +57,16 @@ export default defineComponent({
         startY: 20, // Posição inicial da tabela
       });
 
-      doc.save("tabela.pdf");
+      // Formatar a data
+      const date = new Date();
+      const formattedDate = date.toLocaleDateString("pt-BR").replace(/\//g, "-"); // Formata a data para "dd-mm-aaaa"
+
+      // Personalizar o nome do arquivo (exemplo apenas)
+      const fileName = `${nomeCliente}_Orcamento_${formattedDate}.pdf`;
+      
+      // Salvar o PDF com o nome personalizado
+      doc.save(fileName);
     },
   },
 });
-
-
-// exportToPDF(): void {
-//   const doc = new jsPDF();
-//   doc.text("Relatório de Usuários", 14, 10);
-
-//   // Extrair cabeçalhos e dados da v-data-table
-//   const columns = this.headers.map((header) => header.title);
-//   const rows = this.items.map((item) =>
-//     this.headers.map((header) => item[header.key as keyof typeof item]) // Garante que key seja reconhecido
-// );
 </script>
-
-
-
-
-<style scoped>
-
-</style>
